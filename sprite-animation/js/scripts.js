@@ -4,11 +4,11 @@ const ctx = canvas.getContext('2d');
 const CANVAS_WIDTH = canvas.width = 600;
 const CANVAS_HEIGHT = canvas.height = 600;
 
-var playerImage = new Image();
+const playerImage = new Image();
 playerImage.src = 'images/shadow_dog.png';
 
-var spriteWidth = 575;//=6876/12 cols approx
-var spriteHeight = 523;//=5230/10 rows approx
+let spriteWidth = 575;//=6876/12 cols approx
+let spriteHeight = 523;//=5230/10 rows approx
 
 
 const spriteImageActions = [
@@ -67,33 +67,36 @@ const spriteImageActions = [
     }
 ];
 
-var animateAction = 'Idle';
-var noOfColumns = spriteImageActions.find(action => action.name === animateAction).columns;
+let animateAction = 'Idle';
+let noOfColumns = spriteImageActions.find(action => action.name === animateAction).columns;
 
-var xPosition = 0;
-var yPosition = spriteImageActions.find(action => action.name === animateAction).row;
-var framesPerSecond = 40;
+let xPosition = 0;
+let yPosition = spriteImageActions.find(action => action.name === animateAction).row;
+const frameDelay = 5;
+let frameCount = 0;
 
 function animate(){
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     //ctx.fillRect(100, 50, 100, 100);
     //ctx.drawImage(playerImage, sx, sy, sw, sh, dx, dy, dw, dh);
-    //var position = Math.floor(xPosition/spriteRefreshDelay)%6;
     ctx.drawImage(playerImage, xPosition * spriteWidth, yPosition * spriteHeight, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
 
-    if(xPosition < noOfColumns){
-        xPosition++;
+    if(frameCount < frameDelay){
+        frameCount++;
     }else{
-        xPosition = 0;
+        frameCount = 0;
+        if(xPosition < noOfColumns){
+            xPosition++;
+        }else{
+            xPosition = 0;
+        }
     }
 
-    setTimeout(function(){
-        requestAnimationFrame(animate);
-    },6000/framesPerSecond);
+    requestAnimationFrame(animate);
 }
 
 function fillActionsDropdown(){
-    var actionDropDown = document.getElementById('action');
+    let actionDropDown = document.getElementById('action');
     spriteImageActions.forEach((action)=>{
         var opt = document.createElement('option');
         opt.value = action.name;
