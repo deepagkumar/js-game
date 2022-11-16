@@ -81,7 +81,12 @@ function animate(){
     //ctx.drawImage(playerImage, sx, sy, sw, sh, dx, dy, dw, dh);
     ctx.drawImage(playerImage, xPosition * spriteWidth, yPosition * spriteHeight, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
 
-    if(frameCount < frameDelay){
+    frameCount++;
+    if(frameCount % frameDelay === 0){
+        frameCount = 0;
+        xPosition < noOfColumns ? xPosition++ : xPosition = 0;
+    }
+    /*if(frameCount < frameDelay){
         frameCount++;
     }else{
         frameCount = 0;
@@ -90,7 +95,7 @@ function animate(){
         }else{
             xPosition = 0;
         }
-    }
+    }*/
 
     requestAnimationFrame(animate);
 }
